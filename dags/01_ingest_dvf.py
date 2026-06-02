@@ -14,8 +14,8 @@ def ingest():
     db_user = os.getenv("POSTGRES_SECRETS_USERNAME", "postgres")
     db_password = os.getenv("POSTGRES_SECRETS_PASSWORD", "postgres")
     db_host = os.getenv("POSTGRES_SECRETS_HOST", "postgresql-dvf-postgresql")
-    db_name = "postgres"
-    
+    db_name = os.getenv("POSTGRES_SECRETS_NAME", "defaultdb") # Prise en compte du nom dynamique  
+      
     connection_string = f"postgresql://{db_user}:{db_password}@{db_host}:5432/{db_name}"
     engine = create_engine(connection_string)
     
