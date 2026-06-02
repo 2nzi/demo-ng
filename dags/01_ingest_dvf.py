@@ -11,11 +11,11 @@ def ingest():
     df = pd.read_csv(url, compression="gzip", low_memory=False)
     
     # Récupération sécurisée des accès via les variables d'environnement (avec fallback)
-    db_user = os.getenv("POSTGRES_SECRETS_USERNAME", "postgres")
-    db_password = os.getenv("POSTGRES_SECRETS_PASSWORD", "postgres")
-    db_host = os.getenv("POSTGRES_SECRETS_HOST", "postgresql-dvf-postgresql")
-    db_name = os.getenv("POSTGRES_SECRETS_NAME", "defaultdb") # Prise en compte du nom dynamique  
-      
+    db_user = os.environ["POSTGRES_SECRETS_USERNAME"]
+    db_password = os.environ["POSTGRES_SECRETS_PASSWORD"]
+    db_host = os.environ["POSTGRES_SECRETS_HOST"]
+    db_name = os.environ["POSTGRES_SECRETS_NAME"]
+
     connection_string = f"postgresql://{db_user}:{db_password}@{db_host}:5432/{db_name}"
     engine = create_engine(connection_string)
     

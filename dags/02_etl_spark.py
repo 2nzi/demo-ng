@@ -17,10 +17,10 @@ def etl_spark():
     s3_session_token = os.environ.get("AWS_SESSION_TOKEN")
     
     # 3. Récupération des secrets de la base de données injectés par Vault
-    db_user = os.getenv("POSTGRES_SECRETS_USERNAME", "postgres")
-    db_password = os.getenv("POSTGRES_SECRETS_PASSWORD", "postgres")
-    db_host = os.getenv("POSTGRES_SECRETS_HOST", "postgresql-dvf-postgresql")
-    db_name = os.getenv("POSTGRES_SECRETS_NAME", "defaultdb") # Prise en compte du nom dynamique  
+    db_user = os.environ["POSTGRES_SECRETS_USERNAME"]
+    db_password = os.environ["POSTGRES_SECRETS_PASSWORD"]
+    db_host = os.environ["POSTGRES_SECRETS_HOST"]
+    db_name = os.environ["POSTGRES_SECRETS_NAME"]
     jdbc_url = f"jdbc:postgresql://{db_host}:5432/{db_name}"
 
     # 4. Configuration de la session Spark
