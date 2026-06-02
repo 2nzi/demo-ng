@@ -10,9 +10,15 @@ def ingest():
     url = "https://files.data.gouv.fr/geo-dvf/latest/csv/2023/departements/75.csv.gz"
     df = pd.read_csv(url, compression="gzip", low_memory=False)
     
-    # Utilisation du DNS interne Kubernetes fourni par Onyxia pour Postgres
-    # Remplace 'postgresql-dvf' par le nom exact de ton service s'il est différent
-    engine = create_engine("postgresql://postgres:postgres@postgresql-dvf-postgresql:5432/postgres")
+    # Récupération sécurisée des accès via les variables d'environnement (avec fallback)
+    db_user = os.getenv("POSTGRES_SECRETS_USERNAME", "postgres")
+    db_password = os.getenv("POSTGRES_SECRETS_PASSWORD", "postgres")
+    db_host = os.getenv("POSTGRES_SECRETS_HOST", "postgresql-dvf-postgresql")
+    db_name = "postgres"
+    
+    connection_string = f"postgresql://{db_user}:{db_password}@{db_host}:5432/{db_name}"
+    engine = create_engine(connection_string)
+    
     df.to_sql("dvf_raw", engine, if_exists="replace", index=False)
     print(f"Ingestion réussie : {len(df)} lignes ajoutées dans postgres.")
 
