@@ -1,21 +1,21 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
+from airflow.models import Variable # <-- Nouvel import Airflow
 from datetime import datetime
 import pandas as pd
 from sqlalchemy import create_engine
-import os
 
 def ingest():
     # Ingestion des données de Paris (75) pour le POC
     url = "https://files.data.gouv.fr/geo-dvf/latest/csv/2023/departements/75.csv.gz"
     df = pd.read_csv(url, compression="gzip", low_memory=False)
     
-    # Récupération sécurisée des accès via les variables d'environnement (avec fallback)
-    db_user = os.environ["POSTGRES_SECRETS_USERNAME"]
-    db_password = os.environ["POSTGRES_SECRETS_PASSWORD"]
-    db_host = os.environ["POSTGRES_SECRETS_HOST"]
-    db_name = os.environ["POSTGRES_SECRETS_NAME"]
-
+    # Récupération sécurisée via le coffre-fort interne d'Airflow
+    db_user = Variable.get("POSTGRES_SECRETS_USERNAME")
+    db_password = Variable.get("POSTGRES_SECRETS_PASSWORD")
+    db_host = Variable.get("POSTGRES_SECRETS_HOST")
+    db_name = Variable.get("POSTGRES_SECRETS_NAME")
+      
     connection_string = f"postgresql://{db_user}:{db_password}@{db_host}:5432/{db_name}"
     engine = create_engine(connection_string)
     
