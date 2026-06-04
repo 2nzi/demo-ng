@@ -20,7 +20,7 @@ def call_llm():
         # 2. Correction du modèle ("moe" au lieu de "one")
         "model": "qwen3-6-35b-moe",
         "messages": [
-            {"role": "user", "content": "Bonjour, donne-moi un exemple de code Python."}
+            {"role": "user", "content": "Bonjour, donne-moi le top 10 de micros spécifique hélicoptère."}
         ]
     }
 
