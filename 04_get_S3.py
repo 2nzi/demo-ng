@@ -15,5 +15,4 @@ df = pd.read_csv(
     }
 )
 
-# Affichage des 5 premières lignes
-print(df.head())
+print(df)

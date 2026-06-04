@@ -15,7 +15,7 @@ def etl_spark():
     s3_secret_key = os.environ.get("AWS_SECRET_ACCESS_KEY")
     s3_session_token = os.environ.get("AWS_SESSION_TOKEN")
     
-    # 3. Récupération des secrets de la base de données (que tu as exportés dans ton terminal)
+    # 3. Récupération des secrets de la base de données
     db_user = os.environ["POSTGRES_SECRETS_USERNAME"]
     db_password = os.environ["POSTGRES_SECRETS_PASSWORD"]
     db_host = os.environ["POSTGRES_SECRETS_HOST"]
