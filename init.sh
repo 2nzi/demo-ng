@@ -1,22 +1,18 @@
 #!/bin/bash
 
-echo "Création du dossier Continue..."
-mkdir -p ~/.continue
+echo "Configuration du thème VS Code en mode clair..."
 
-echo "Génération du fichier config.yaml..."
-# ATTENTION : Il n'y a plus de guillemets autour de EOF !
-# Bash va prendre la valeur de ton Vault et l'écrire en dur dans le fichier.
-cat << EOF > ~/.continue/config.yaml
-name: SSPCloud Config
-version: 1.0.0
-schema: v1
+# Définition du dossier où VS Code stocke ses paramètres
+VSCODE_SETTINGS_DIR="$HOME/.local/share/code-server/User"
 
-models:
-  - name: qwen3-6-35b-moe
-    provider: openai
-    model: qwen3-6-35b-moe
-    apiKey: ${LLM_API_KEY}
-    apiBase: https://llm.lab.sspcloud.fr/api
+# Création du dossier s'il n'existe pas déjà
+mkdir -p "$VSCODE_SETTINGS_DIR"
+
+# Injection du paramètre de thème clair dans le fichier settings.json
+cat << 'EOF' > "$VSCODE_SETTINGS_DIR/settings.json"
+{
+    "workbench.colorTheme": "Default Light+"
+}
 EOF
 
-echo "Configuration Continue terminée !"
+echo "✅ Thème clair configuré avec succès !"
